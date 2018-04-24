@@ -1,0 +1,14 @@
+{
+    "TR":0.7,
+    "nr_periods":4,
+    "stim_time":120,
+    "fix_time": 12,
+    "post_fix_time": 11.75,
+    "back_and_forth_period": 3.0,
+    "max_amplitude": 18,
+    "in_scanner": 0,
+    "size_fixation_deg": 0.4,
+    "max_stimulus_size": 7,
+    "min_stimulus_size": 1,
+    "stim_flicker_frequency": 8
+}
