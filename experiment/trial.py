@@ -31,6 +31,7 @@ class RSSPTrial(Trial):
             # create jump times:
             self.transition_times = np.r_[0,np.cumsum(np.random.exponential(self.session.config['back_and_forth_period']/10, size=50000)+0.25)]
             self.transition_times = self.transition_times[self.transition_times < parameters['stim_time']]
+            np.savetxt(self.session.output_file + '_%i.tsv'%self.ID, self.transition_times, delimiter='\t', fmt="%3.3f")
 
 
     def get_stimulus_pos(self, time):
@@ -40,7 +41,7 @@ class RSSPTrial(Trial):
             time_in_rotation_period = time # math.fmod(time, rotation_period)
             continuous_time = time
         elif self.ID == 2:  # Retinotopy and Saccades go in jumps
-            time_in_rotation_period = math.fmod(self.transition_times[self.transition_times<time][-1], rotation_period)
+            time_in_rotation_period = math.fmod(self.transition_times[self.transition_times<abs(time)][-1], rotation_period)
             continuous_time = time_in_rotation_period
             
         phase_in_rotation_period = math.pi*time_in_rotation_period/rotation_period
@@ -72,13 +73,13 @@ class RSSPTrial(Trial):
         if self.phase == 2:
             if self.ID == 0:
                 self.session.fixation.setPos([0,0])
-                self.session.retino_stim.setPos(self.get_stimulus_pos(self.this_phase_time))
-                self.session.retino_stim.setSize(self.get_stimulus_scale(self.get_stimulus_pos(self.this_phase_time)))
-                time_tex = self.session.retino_tex * np.sin(self.this_phase_time * 2 * math.pi * self.parameters['stim_flicker_frequency'] )
+                self.session.retino_stim.setPos(self.get_stimulus_pos(self.this_phase_time*self.session.index_number))
+                self.session.retino_stim.setSize(self.get_stimulus_scale(self.get_stimulus_pos(self.this_phase_time*self.session.index_number)))
+                time_tex = self.session.retino_tex * np.sin(self.this_phase_time*self.session.index_number * 2 * math.pi * self.parameters['stim_flicker_frequency'] )
                 self.session.retino_stim.setTex(time_tex)
                 self.session.retino_stim.draw()
             else:
-                self.session.fixation.setPos(self.get_stimulus_pos(self.this_phase_time))
+                self.session.fixation.setPos(self.get_stimulus_pos(self.this_phase_time*self.session.index_number))
 
         if self.phase == 3:
             self.session.fixation.setPos([0,0])
