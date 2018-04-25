@@ -41,7 +41,7 @@ class RSSPSession(EyelinkSession):
         size_fixation_pix = self.deg2pix(self.config['size_fixation_deg'])
         self.fixation = visual.GratingStim(self.screen,
                                            tex='sin',
-                                           mask='circle',
+                                           mask='raisedCos',
                                            size=size_fixation_pix,
                                            texRes=512,
                                            color='red',

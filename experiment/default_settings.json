@@ -1,7 +1,7 @@
 {
     "TR":0.7,
     "nr_periods":4,
-    "stim_time":120,
+    "stim_time":96,
     "fix_time": 12,
     "post_fix_time": 11.95,
     "back_and_forth_period": 3.0,
